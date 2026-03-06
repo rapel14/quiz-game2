@@ -129,8 +129,8 @@ opacity:0;
 
 <div id="pilihanYN" style="display:none;">
 <br>
-<button onclick="jawabYes()">Yes</button>
-<button id="noBtn" onmouseover="lari()">No</button>
+<button onclick="jawabYes()">gajadi</button>
+<button id="noBtn" onmouseover="lari()">resign</button>
 </div>
 
 <br><br>
@@ -152,10 +152,10 @@ let pertanyaan=[
 "Kenapa bebek kakinya 2?",
 "Apa hal yang sangat tidak aku sukai?",
 "1+1x4+15+20",
-"Apa yang punya mata tapi tidak bisa melihat?",
+"aku umur berapa?",
 "Apa yang selalu datang tapi tidak pernah tiba?",
 "Apa yang bisa terbang tanpa sayap?",
-"Untuk sampai saat ini, jawaban kamu yes or no?"
+"jadi waktu kemarin kamu kan ada niat untuk resign, kalo sekarang gimana?"
 ];
 
 let jawaban=[
@@ -165,10 +165,10 @@ let jawaban=[
 "karena bebek kakinya 2",
 "bohong",
 "40",
-"jarum",
+"22",
 "besok",
 "angin",
-"yes"
+"gajadi"
 ];
 
 let soal=0;
@@ -251,13 +251,13 @@ setTimeout(nextSoal,1000);
 
 }
 
-function jawabYes(){
+function jawabgajadi(){
 
 clearInterval(timer);
 
 document.getElementById("gameBox").innerHTML = `
 <h1>❤️ Owsyiittt ❤️</h1>
-<p>Aku tau jawabannya pasti Yes 😆</p>
+<p> cieee gajadi resign :P </p>
 
 <img src="images/kylaa.jpg" width="250" style="border-radius:15px;margin-top:15px;">
 
@@ -271,8 +271,8 @@ buatHati();
 
 }
 
-function jawabNo(){
-cekJawabanYN("no");
+function jawabresign(){
+cekJawabanYN("resign");
 }
 
 function cekJawabanYN(pilih){
@@ -353,4 +353,5 @@ heart.remove();
 </script>
 
 </body>
+
 </html>
