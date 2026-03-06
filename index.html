@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Game Teka-Teki</title>
+
+<style>
+
+body{
+font-family: Arial;
+background-image: url("images/anakanjing.jpg");
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+margin:0;
+color:white;
+}
+
+#gameBox{
+background: rgba(120, 139, 137, 0.6);
+padding:40px;
+border-radius:15px;
+width:420px;
+text-align:center;
+box-shadow:0 10px 30px rgba(0,0,0,0.5);
+}
+
+h1{
+margin-top:0;
+}
+
+button{
+padding:12px 25px;
+border:none;
+border-radius:8px;
+background:#00c6ff;
+color:white;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#0094cc;
+}
+
+input{
+padding:12px;
+width:80%;
+border:none;
+border-radius:8px;
+margin-top:10px;
+}
+
+#timer{
+font-size:24px;
+font-weight:bold;
+margin-bottom:10px;
+color:#ffffff;
+}
+
+#pertanyaan{
+font-size:18px;
+margin:20px 0;
+}
+
+#noBtn{
+position:absolute;
+}
+
+.hearts{
+position:fixed;
+left:0;
+top:0;
+width:100%;
+height:100%;
+pointer-events:none;
+overflow:hidden;
+}
+
+.heart{
+position:absolute;
+color:red;
+font-size:25px;
+animation:jatuh 4s linear infinite;
+}
+
+@keyframes jatuh{
+0%{
+transform:translateY(-10vh);
+opacity:1;
+}
+100%{
+transform:translateY(100vh);
+opacity:0;
+}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="gameBox">
+
+<h1> hi sweetie </h1>
+
+<div id="menu">
+
+<h1 class="gameTitle">kylaaa</h1>
+
+<p class="subtitle">Answer 10 questions Correctly</p>
+
+<button class="startBtn" onclick="mulaiGame()">start game</button>
+
+</div>
+
+<div id="game" style="display:none">
+
+<div id="timer">15</div>
+
+<p id="pertanyaan"></p>
+
+<input type="text" id="jawaban" placeholder="Tulis jawaban...">
+
+<div id="pilihanYN" style="display:none;">
+<br>
+<button onclick="jawabYes()">Yes</button>
+<button id="noBtn" onmouseover="lari()">No</button>
+</div>
+
+<br><br>
+
+<button id="btnJawab" onclick="cekJawaban()">Jawab</button>
+
+<p id="hasil"></p>
+
+</div>
+
+</div>
+
+<script>
+
+let pertanyaan=[
+"Apa makanan kesukaan ku?",
+"Apa yang selalu naik tapi tidak pernah turun?",
+"Apa warna favorite ku?",
+"Kenapa bebek kakinya 2?",
+"Apa hal yang sangat tidak aku sukai?",
+"1+1x4+15+20",
+"Apa yang punya mata tapi tidak bisa melihat?",
+"Apa yang selalu datang tapi tidak pernah tiba?",
+"Apa yang bisa terbang tanpa sayap?",
+"Untuk sampai saat ini, jawaban kamu yes or no?"
+];
+
+let jawaban=[
+"tempe bacem",
+"umur",
+"biru",
+"karena bebek kakinya 2",
+"bohong",
+"40",
+"jarum",
+"besok",
+"angin",
+"yes"
+];
+
+let soal=0;
+let skor=0;
+let waktu=15;
+let timer;
+
+function mulaiGame(){
+
+document.getElementById("menu").style.display="none";
+document.getElementById("game").style.display="block";
+
+tampilkanSoal();
+mulaiTimer();
+
+}
+
+function tampilkanSoal(){
+
+document.getElementById("pertanyaan").innerText=pertanyaan[soal];
+document.getElementById("jawaban").value="";
+document.getElementById("hasil").innerText="";
+waktu=15;
+
+if(soal==9){
+document.getElementById("jawaban").style.display="none";
+document.getElementById("btnJawab").style.display="none";
+document.getElementById("pilihanYN").style.display="block";
+}else{
+document.getElementById("jawaban").style.display="block";
+document.getElementById("btnJawab").style.display="inline-block";
+document.getElementById("pilihanYN").style.display="none";
+}
+
+}
+
+function mulaiTimer(){
+
+if(soal==9){
+document.getElementById("timer").style.display="none";
+return;
+}
+
+document.getElementById("timer").style.display="block";
+
+timer=setInterval(function(){
+
+waktu--;
+document.getElementById("timer").innerText="⏳ "+waktu;
+
+if(waktu<=0){
+
+clearInterval(timer);
+nextSoal();
+
+}
+
+},1000);
+
+}
+
+function cekJawaban(){
+
+let input=document.getElementById("jawaban").value.toLowerCase();
+
+if(input===jawaban[soal]){
+
+skor++;
+document.getElementById("hasil").innerText="✅ Benar!";
+
+}else{
+
+document.getElementById("hasil").innerText="❌ Salah!";
+
+}
+
+clearInterval(timer);
+
+setTimeout(nextSoal,1000);
+
+}
+
+function jawabYes(){
+
+clearInterval(timer);
+
+document.getElementById("gameBox").innerHTML = `
+<h1>❤️ Owsyiittt ❤️</h1>
+<p>Aku tau jawabannya pasti Yes 😆</p>
+
+<img src="images/kylaa.jpg" width="250" style="border-radius:15px;margin-top:15px;">
+
+<div class="hearts"></div>
+
+<br><br>
+<button onclick="location.reload()">Main Lagi</button>
+`;
+
+buatHati();
+
+}
+
+function jawabNo(){
+cekJawabanYN("no");
+}
+
+function cekJawabanYN(pilih){
+
+if(pilih===jawaban[soal]){
+
+skor++;
+document.getElementById("hasil").innerText="✅ Benar!";
+
+}else{
+
+document.getElementById("hasil").innerText="❌ Salah!";
+
+}
+
+clearInterval(timer);
+setTimeout(nextSoal,1000);
+
+}
+
+function nextSoal(){
+
+soal++;
+
+if(soal<pertanyaan.length){
+
+tampilkanSoal();
+mulaiTimer();
+
+}else{
+
+document.getElementById("gameBox").innerHTML=
+
+"<h1>🎉 Game Selesai</h1>"+
+"<h2>Skor kamu: "+skor+" / 10</h2>"+
+"<br>"+
+"<button onclick='location.reload()'>Main Lagi</button>";
+
+}
+
+}
+
+function lari(){
+
+let btn = document.getElementById("noBtn");
+
+let x = Math.random() * (window.innerWidth - 100);
+let y = Math.random() * (window.innerHeight - 50);
+
+btn.style.left = x + "px";
+btn.style.top = y + "px";
+
+}
+
+function buatHati(){
+
+let container = document.querySelector(".hearts");
+
+setInterval(function(){
+
+let heart = document.createElement("div");
+heart.classList.add("heart");
+heart.innerHTML="❤️";
+
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=(Math.random()*20+20)+"px";
+
+container.appendChild(heart);
+
+setTimeout(()=>{
+heart.remove();
+},4000);
+
+},300);
+
+}
+
+</script>
+
+</body>
+</html>
